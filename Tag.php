@@ -82,7 +82,10 @@ class Tag {
     public function __toString() {
         $response =  "<$this->name";
         foreach ($this->attributes as $attribute => $value) {
-            $response .= " $attribute='$value'";
+            $response .= " $attribute";
+            if (isset($value)) {
+                $response .= "='$value'";
+            }
         }
         if ($this->self_closing) {
             $response .= " />";
