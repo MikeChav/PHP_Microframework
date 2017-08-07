@@ -79,7 +79,7 @@ class Tag {
         $this->contains = array_merge($this->contains, $tags);
     }
 
-    public function __toString() {
+    public function __toString() : string {
         $response =  "<$this->name";
         foreach ($this->attributes as $attribute => $value) {
             $response .= " $attribute";
