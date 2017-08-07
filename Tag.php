@@ -8,11 +8,11 @@
 
 //object for each tag type
 class Tag {
-    var $name;
-    var $attributes = array(); // associative array
-    var $self_closing;
-    var $nestable;
-    var $contains = array(); //one dimension, numeric key array ; meant to simulate a linked list
+    private $name;
+    private $attributes = array(); // associative array
+    private $self_closing;
+    private $nestable;
+    private $contains = array(); //one dimension, numeric key array ; meant to simulate a linked list
 
     function __construct(string $name = '', array $attributes = [], bool $self_closing = false) {
         $this->name = $name;
