@@ -8,16 +8,19 @@
 
 //object for each tag type
 class Tag {
+
     private $name;
     private $attributes = array(); // associative array
     private $self_closing;
     private $nestable;
     private $contains = array(); //one dimension, numeric key array ; meant to simulate a linked list
 
-    function __construct(string $name = '', array $attributes = [], bool $self_closing = false) {
+    function __construct(string $name = '', array $attributes = [], bool $self_closing = false, bool $nestable = true, array $contains = []) {
         $this->name = $name;
         $this->attributes = $attributes;
         $this->self_closing = $self_closing;
+        $this->nestable = $nestable;
+        $this->contains = $contains;
     }
 
     /**
@@ -47,6 +50,36 @@ class Tag {
     public function set_attributes(array $attributes) {
         $this->attributes = $attributes;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function get_nestable() {
+		return $this->nestable;
+	}
+
+	/**
+	 * @param mixed $nestable
+	 */
+	public function set_nestable($nestable) {
+		$this->nestable = $nestable;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_contains() : array {
+		return $this->contains;
+	}
+
+	/**
+	 * @param array $contains
+	 */
+	public function set_contains(array $contains) {
+		$this->contains = $contains;
+	}
+
+
 
     function add_attribute(string $name, $value) {
         $this->attributes[$name] = $value;
@@ -92,10 +125,12 @@ class Tag {
         }
         else {
             $response .= ">";
-            foreach ($this->contains as $tag) {
-                ob_start();
-                echo $tag;
-                $response .= ob_get_clean();
+            if ($this->nestable) {
+                foreach ($this->contains as $tag) {
+                    ob_start();
+                    echo $tag;
+                    $response .= ob_get_clean();
+                }
             }
             $response .= "</$this->name>";
         }
@@ -103,3 +138,15 @@ class Tag {
     }
 
 }
+
+/*
+class Head_Tag {
+    var $title;
+    var $base;
+    var $link = array();
+    var $style = array();
+    var $meta = array();
+    var $script = array();
+    var $noscript = array();
+}*/
+
